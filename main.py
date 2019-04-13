@@ -1,4 +1,5 @@
 import smartcar
+import credentials as c
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 
@@ -11,11 +12,9 @@ CORS(app)
 access = None
 
 client = smartcar.AuthClient(
-        client_id=os.environ.get('CLIENT_ID'),
-        client_secret=os.environ.get('CLIENT_SECRET'),
-        redirect_uri=os.environ.get('REDIRECT_URI'),
-        # scope=['read_vehicle_info', 'read_odometer', 'control_security', 'control_security:unlock',
-        #        'control_security:lock'],
+        client_id=c.cred["CLIENT_ID"],
+        client_secret=c.cred["CLIENT_SECRET"],
+        redirect_uri=c.cred["REDIRECT_URI"],
         test_mode=False,
         )
 
@@ -56,6 +55,22 @@ def unlock():
     print(res)
 
     return jsonify(res)
+
+@app.route('/lock', methods=['GET'])
+def lock():
+    # TODO: Request Step 2: Get vehicle ids
+    global access
+
+    response = smartcar.get_vehicle_ids(access['access_token'])
+    print(response)
+    vehicle = smartcar.Vehicle(response["vehicles"][0], access['access_token'])
+    print(vehicle)
+
+    res = vehicle.lock()
+    print(res)
+
+    return jsonify(res)
+
 
 
 @app.route('/info', methods=['GET'])
