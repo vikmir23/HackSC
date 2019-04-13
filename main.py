@@ -14,8 +14,9 @@ client = smartcar.AuthClient(
         client_id=os.environ.get('CLIENT_ID'),
         client_secret=os.environ.get('CLIENT_SECRET'),
         redirect_uri=os.environ.get('REDIRECT_URI'),
-        scope=['read_vehicle_info'],
-        test_mode=True,
+        # scope=['read_vehicle_info', 'read_odometer', 'control_security', 'control_security:unlock',
+        #        'control_security:lock'],
+        test_mode=False,
         )
 
 # TODO: Authorization Step 1a: Launch Smartcar authorization dialog
@@ -32,24 +33,42 @@ def login():
 def exchange():
     # TODO: Authorization Step 3: Handle Smartcar response
     code = request.args.get('code')
+
     global access
     access = client.exchange_code(code)
-    print(code)
-    
+
     return '', 200
 
     # TODO: Request Step 1: Obtain an access token
 
 
-@app.route('/vehicle', methods=['GET'])
-def vehicle():
+@app.route('/unlock', methods=['GET'])
+def unlock():
     # TODO: Request Step 2: Get vehicle ids
     global access
-    vehicle_ids = smartcar.get_vehicle_ids(
-        access['access_token'])['vehicles']
+
+    response = smartcar.get_vehicle_ids(access['access_token'])
+    print(response)
+    vehicle = smartcar.Vehicle(response["vehicles"][0], access['access_token'])
+    print(vehicle)
+
+    res = vehicle.unlock()
+    print(res)
+
+    return jsonify(res)
+
+
+@app.route('/info', methods=['GET'])
+def info():
+    # TODO: Request Step 2: Get vehicle ids
+    vehicle_ids = smartcar.get_vehicle_ids(access['access_token'])['vehicles']
+
     vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token'])
+
     info = vehicle.info()
+
     print(info)
+
     return jsonify(info)
 
     # TODO: Request Step 3: Create a vehicle
