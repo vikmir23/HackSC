@@ -30,7 +30,7 @@ def helloWorld():
 def login():
     # TODO: Authorization Step 1b: Launch Smartcar authorization dialog
     auth_url = client.get_auth_url()
-    print("----------------------------------------------------------------------------\n\n\n\n\n\n\n\n")
+    # print("----------------------------------------------------------------------------\n\n\n\n\n\n\n\n")
     return redirect(auth_url)
 
 
