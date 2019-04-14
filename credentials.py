@@ -1,6 +1,6 @@
 cred = { 
-	"CLIENT_ID": "4600d2df-f455-46d2-b724-19dfb949692b",
-	"CLIENT_SECRET": "24830c61-f9ca-470d-b6e6-efcb8fae7566",
-	"REDIRECT_URI":"http://localhost:8000/exchange"
+	"CLIENT_ID": "7965f91d-0d1b-4313-8538-2f401aabb60e",
+	"CLIENT_SECRET": "8da5a3fe-0db7-4f01-8fe9-1b87970707af",
+	"REDIRECT_URI":"https://13.56.210.142:80/exchange"
 }
 
