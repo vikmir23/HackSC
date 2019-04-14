@@ -21,10 +21,16 @@ client = smartcar.AuthClient(
 # TODO: Authorization Step 1a: Launch Smartcar authorization dialog
 
 
+@app.route('/', methods=['GET'])
+def helloWorld():
+    return 'helloWorld\n'
+
+
 @app.route('/login', methods=['GET'])
 def login():
     # TODO: Authorization Step 1b: Launch Smartcar authorization dialog
     auth_url = client.get_auth_url()
+    print("----------------------------------------------------------------------------\n\n\n\n\n\n\n\n")
     return redirect(auth_url)
 
 
@@ -36,7 +42,7 @@ def exchange():
     global access
     access = client.exchange_code(code)
 
-    return '', 200
+    return "exchange_succesful"
 
     # TODO: Request Step 1: Obtain an access token
 
@@ -47,7 +53,7 @@ def unlock():
     global access
 
     response = smartcar.get_vehicle_ids(access['access_token'])
-    print(response)
+    print("", response)
     vehicle = smartcar.Vehicle(response["vehicles"][0], access['access_token'])
     print(vehicle)
 
