@@ -18,8 +18,6 @@ client = smartcar.AuthClient(
         test_mode=False,
         )
 
-
-
 @app.route('/', methods=['GET'])
 def helloWorld():
     return 'helloWorld\n'
@@ -30,7 +28,6 @@ def login():
     auth_url = client.get_auth_url()
     return redirect(auth_url)
 
-
 @app.route('/exchange', methods=['GET'])
 def exchange():
     code = request.args.get('code')
@@ -39,9 +36,6 @@ def exchange():
     access = client.exchange_code(code)
 
     return "exchange_succesful"
-
-    
-
 
 @app.route('/unlock', methods=['GET'])
 def unlock():
@@ -92,7 +86,6 @@ def odo():
 
     odometer = vehicle.odometer()
 
-
     return jsonify(odometer)
 @app.route('/loc', methods = ['GET'])
 def location():
@@ -100,8 +93,6 @@ def location():
     vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token'])
     loc = vehicle.location()
     return jsonify(loc)
-
-
 
 if __name__ == '__main__':
     app.run(port=80)
